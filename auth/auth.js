@@ -1,22 +1,25 @@
 
-import jwt from "jsonwebtoken";
-//token generation for login
-export function generateToken(id){
-    return jwt.sign({id},process.env.secret_key);
+import dotenv from"dotenv"
+import jwt from "jsonwebtoken"
+
+dotenv.config()
+
+// reset token
+export function GenearateToken(id){
+    return jwt.sign({ id }, process.env.key, { expiresIn: '5m' })
 }
-//token generation for reset password link
-export function generateExpiryToken(id){
-    return jwt.sign({id},process.env.secret_key,{expiresIn:"1h"});
+
+// Activation token
+export function GenearateActiveToken(email){
+    return jwt.sign({ email }, process.env.key, { expiresIn: '30m' })
 }
-//custom authorization middleware
-export function isAuthorized(req,res,next){
-    //getting headers 
-    const token=req.headers["x-auth-token"];
-    if(!token){
-        res.status(400).json({message:"Access denied"});
-    }else{
-        //comparing and verifying
-        jwt.verify(token,process.env.secret_key);
-        next();
-    }
+
+// Session token
+export function GenearateSessionToken(id){
+    return jwt.sign({ id }, process.env.key)
+}
+
+// verify token
+export function VerifyToken(token){
+    return jwt.verify(token, process.env.key)
 }
