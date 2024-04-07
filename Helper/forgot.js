@@ -1,8 +1,8 @@
+
 import nodemailer from "nodemailer";
-import { backendURL } from "./url.js";
 
 // send password reset mail
-export async function sendActivationMail(email, actToken, role) {
+export async function sentMail(email, id, token, link) {
   let transport = nodemailer.createTransport({
     service: "gmail",
     host: "smtp:gmail.com",
@@ -17,17 +17,17 @@ export async function sendActivationMail(email, actToken, role) {
   let details = {
     from: process.env.Email,
     to: email,
-    subject: "Confirmation Email ",
-    html: `<h5>Hi there,</h5>
-        <p>In order to complete your account creation click the link below to verify your email</p>
-        <p>The link will be expired in 2 days</p>
+    subject: "Password Change Request ",
+    html: `<h5>Hi there, we have received a password reset request</h5>
+        <p>Click the below button to reset your password:</p>
+        <p>The link will be valid for 15 minutes</p>
         <div style="text-align: center;">
-          <a href="${backendURL}/${role}/signup/activate/${actToken}" target="_blank" style="background-color: #4CAF50; color: white; padding: 14px 25px; text-align: center; text-decoration: none; display: inline-block; border-radius: 15px;">
-            Confirm Email
+          <a href="${link}/${id}/${token}" target="_blank" style="background-color: #4CAF50; color: white; padding: 14px 25px; text-align: center; text-decoration: none; display: inline-block; border-radius: 15px;">
+            Reset Password
           </a>
         </div>`,
   };
-
+  // console.log(`${link}/${id}/${token}`);
   try {
     let res = await transport.sendMail(details);
     console.log(`Message sent: ${res.messageId}`);

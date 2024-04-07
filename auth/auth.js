@@ -1,25 +1,17 @@
 
-import dotenv from"dotenv"
-import jwt from "jsonwebtoken"
-
-dotenv.config()
-
-// reset token
-export function GenearateToken(id){
-    return jwt.sign({ id }, process.env.key, { expiresIn: '5m' })
-}
+import jwt from "jsonwebtoken";
 
 // Activation token
-export function GenearateActiveToken(email){
-    return jwt.sign({ email }, process.env.key, { expiresIn: '30m' })
+export function genearateActiveToken(email) {
+  return jwt.sign({ email }, process.env.KEY, { expiresIn: "2d" });
 }
 
 // Session token
-export function GenearateSessionToken(id){
-    return jwt.sign({ id }, process.env.key)
+export function genearateSessionToken(id) {
+  return jwt.sign({ id }, process.env.KEY);
 }
 
-// verify token
-export function VerifyToken(token){
-    return jwt.verify(token, process.env.key)
+// reset token
+export function genearateToken(id) {
+  return jwt.sign({ id }, process.env.KEY, { expiresIn: "15m" });
 }

@@ -2,7 +2,7 @@
 import mongoose from "mongoose";
 import { ObjectId } from "bson";
 
-const userSchema = new mongoose.Schema({
+const managerSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
@@ -28,11 +28,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
-  sessionToken: {
+  activationToken: {
     type: String,
     trim: true,
   },
-  activationToken: {
+  sessionToken: {
     type: String,
     trim: true,
   },
@@ -43,7 +43,7 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     required: true,
-    default: "User",
+    default: "Manager",
   },
   createdAt: {
     type: Date,
@@ -56,25 +56,6 @@ const userSchema = new mongoose.Schema({
       trim: true,
     },
   ],
-  notification: [
-    {
-      data: {
-        type: ObjectId,
-        ref: "Notification",
-        trim: true,
-      },
-      readStatus: {
-        type: Boolean,
-        default: false,
-      },
-    },
-  ],
-  services: [
-    {
-      type: ObjectId,
-      ref: "Service",
-    },
-  ],
   account: {
     type: String,
     required: true,
@@ -82,4 +63,4 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-export const User = mongoose.model("User", userSchema);
+export const Manager = mongoose.model("Manager", managerSchema);

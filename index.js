@@ -1,36 +1,34 @@
 import express from "express";
-import cors from "cors";
 import dotenv from "dotenv";
-import cookieParser from "cookie-parser";
-import { client } from "./db/db.js";
-import { SigninRouter } from "./Router/login.js";
-import { expenseRouter } from "./Router/expense.js";
-import { IncomeRouter } from "./Router/income.js";
+import cors from "cors";
+import { dbConnect } from "./db/db.js";
+import { userRouter } from "./Router/userRouter.js";
+import { managerRouter } from "./Router/managerroute.js";
+import { adminRouter } from "./Router/adminroute.js";
 
-//config for env 
-dotenv.config()
-// server Started 
-const app=express()
-const port=process.env.port;
+// Initializing App
+const app = express();
+// Initializing PORT
+const PORT = process.env.PORT || 9000;
+// Connecting DataBase
+dbConnect();
+// Config Dotenv
+dotenv.config();
+// Middlewares
+app.use(express.json());
+app.use(cors());
 
-//database Connection Check
-client()
+// App Routers
+// user
+app.use("/user", userRouter);
 
-//Middleware
-app.use(express.json())
-app.use(cors())
-app.use(cookieParser())
+// manager
+app.use("/manager", managerRouter);
 
+// admin
+app.use("/admin", adminRouter);
 
-// application routes
-app.use('/',SigninRouter)
-app.use('/data',expenseRouter)
-app.use('/input',IncomeRouter)
-
-
-
-
-// listening Server
-app.listen(port,() => {
-    console.log(`Server Started in localhost:${port}`);
-  })
+// Listening to App
+app.listen(PORT, () => {
+  console.log(`Server is running at http://localhost:${PORT}`);
+});
