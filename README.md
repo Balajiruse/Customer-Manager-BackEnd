@@ -1,4 +1,4 @@
-# CRM - Customer Relation Management
+#  Customer  Management
   It's a Customer manage Application with 3 Roles Users, Managers and Admin with Features of Notification, Tickets, Activity, Services etc...
   Each Roles have a Different Permission to interact with an Application
 
